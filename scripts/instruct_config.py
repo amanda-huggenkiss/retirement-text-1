@@ -267,6 +267,12 @@ def get_training_json(train_info: dict) -> dict:
     train_request["adjust_batch_size"] = False
     train_request["periodic_save_steps"] = 500
     
+    if param_nums < 2_000_000_000:
+        if train_info["hours_to_complete"] >= 3:
+            train_request["min_steps"] = 300
+        elif train_info["hours_to_complete"] >= 2:
+            train_request["min_steps"] = 200
+    
     return {
         "train_request": train_request,
         "run_cmd": run_cmd
